@@ -1,0 +1,220 @@
+:root{
+  --ink:#150c1c; --ink2:#22132c; --line:#422a4f;
+  --cloth:#113a32; --cloth2:#0a2620;
+  --brass:#d9a441; --marigold:#f5b638; --ivory:#f8eee0; --dim:#b6a2c2;
+  --rose:#e64c5d; --jade:#2eb886; --amber:#e08a26;
+  --display:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--ivory);font-family:var(--body);font-size:16px;overflow-x:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--marigold);outline-offset:2px}
+#app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;position:relative;overflow-x:hidden}
+
+/* ---------- shared ---------- */
+.btn{min-height:50px;padding:0 16px;border-radius:14px;background:var(--ink2);border:1.5px solid var(--line);font-weight:650;font-size:1rem;display:inline-flex;align-items:center;justify-content:center;text-align:center;transition:background .15s,transform .1s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--marigold);border-color:var(--marigold);color:#2b1a00}
+.btn.danger{background:transparent;border-color:var(--rose);color:#ff9aa3}
+.btn.ghost{background:transparent}
+.btn.small{min-height:38px;padding:0 12px;font-size:.88rem;border-radius:10px}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.field label,.lbl{font-size:.85rem;color:var(--dim)}
+.field input,.field select{height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--ink2);padding:0 12px;width:100%}
+.row{display:flex;gap:10px}
+.row>*{flex:1;min-width:0}
+.card{background:var(--ink2);border:1.5px solid var(--line);border-radius:18px;padding:16px;margin:12px 14px}
+h1,h2{font-family:var(--display);margin:0}
+.muted{color:var(--dim)}
+.coin{display:inline-block;width:.95em;height:.95em;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe29a,var(--brass) 60%,#8a6120);vertical-align:-.12em;margin-right:.25em;box-shadow:0 0 0 1px #6b4a12 inset}
+.num{font-family:var(--display);font-variant-numeric:tabular-nums}
+
+/* ---------- home ---------- */
+.home{padding:24px 16px 40px}
+.brand-badge{display:inline-block;padding:4px 10px;border-radius:99px;background:rgba(245,182,56,.12);border:1px solid rgba(245,182,56,.35);color:var(--marigold);font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+.home h1{font-size:2.4rem;line-height:1.05;margin-bottom:8px}
+.home .sub{color:var(--dim);margin:0 0 20px;font-size:.95rem;line-height:1.4}
+.tabs{display:flex;gap:8px;margin:0 0 14px}
+.tabs .btn{flex:1;min-height:44px}
+.tabs .btn.on{background:var(--marigold);color:#2b1a00;border-color:var(--marigold)}
+.home .card{margin:0 0 14px}
+.codeinput{text-transform:uppercase;letter-spacing:.3em;font-family:var(--display);font-size:1.4rem;text-align:center}
+.disclaimer-card{background:rgba(0,0,0,.35);border:1px dashed var(--line);border-radius:14px;padding:12px 14px;font-size:.82rem;color:var(--dim);line-height:1.45;text-align:center}
+
+/* ---------- lobby ---------- */
+.lobby{padding:16px 0 40px}
+.roomcode{margin:0 16px 12px;text-align:center}
+.roomcode .code{font-family:var(--display);font-size:2.8rem;letter-spacing:.18em;color:var(--marigold);line-height:1.1}
+.lobby-host-line{font-size:.92rem;color:var(--ivory);margin-top:4px}
+.lobby-host-line b{color:var(--marigold)}
+.share{display:flex;gap:8px;margin:12px 16px}
+.share .btn{flex:1;min-height:42px;font-size:.88rem;padding:0 8px}
+.qr{display:block;margin:0 auto 8px;border-radius:12px;background:#fff;padding:8px}
+.plist{list-style:none;margin:0;padding:0}
+.plist li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.plist li:last-child{border:0}
+.dot{width:12px;height:12px;border-radius:50%;flex:none}
+.plist .who{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag{font-size:.75rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.tag.tag-host{background:rgba(245,182,56,.15);border-color:var(--marigold);color:var(--marigold);font-weight:700}
+.tag.tag-ready{background:rgba(46,184,134,.15);border-color:var(--jade);color:var(--jade);font-weight:600}
+.tag.tag-wait{background:rgba(224,138,38,.12);border-color:var(--amber);color:var(--amber)}
+
+.quick-settings-summary{font-size:.85rem;color:var(--dim);margin:6px 0 12px;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,.25);border:1px solid var(--line)}
+.quick-settings-summary b{color:var(--marigold)}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0}
+.chip span{display:block;min-width:40px;text-align:center;padding:8px 6px;border-radius:10px;border:1.5px solid var(--line);background:var(--ink)}
+.chip input:checked+span{background:var(--marigold);color:#2b1a00;border-color:var(--marigold);font-weight:700}
+.chip input:focus-visible+span{outline:2px solid var(--marigold)}
+.switch{display:flex;align-items:center;justify-content:space-between;min-height:48px}
+.switch input{width:22px;height:22px;accent-color:var(--marigold)}
+.ro{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line)}
+.ro:last-child{border:0}
+
+/* ---------- game header ---------- */
+.top{display:flex;align-items:center;gap:8px;padding:10px 14px;position:sticky;top:0;z-index:10;background:linear-gradient(var(--ink) 80%,transparent)}
+.top .rc{font-family:var(--display);letter-spacing:.12em;color:var(--marigold);font-size:1.15rem;font-weight:700}
+.top .grow{flex:1;min-width:0}
+.top .meta{font-size:.76rem;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mybalance{background:rgba(245,182,56,.12);border:1.5px solid rgba(245,182,56,.4);border-radius:12px;padding:6px 10px;font-family:var(--display);font-size:.95rem;color:var(--marigold);font-weight:700;white-space:nowrap;display:flex;align-items:center}
+.iconbtn{width:42px;height:42px;border-radius:12px;background:var(--ink2);border:1.5px solid var(--line);font-size:1.1rem;position:relative;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.badge{position:absolute;top:-4px;right:-4px;background:var(--rose);color:#fff;border-radius:99px;font-size:.7rem;min-width:18px;height:18px;line-height:18px;padding:0 4px}
+
+/* ---------- table view ---------- */
+.tablewrap{padding:2px 10px 0;width:100%;overflow:hidden}
+.table{position:relative;width:100%;height:min(60vw,320px);min-height:265px;border-radius:50% / 46%;
+  background:radial-gradient(ellipse at 50% 40%,var(--cloth),var(--cloth2) 82%);
+  border:2px dashed rgba(217,164,65,.65);outline:8px solid #22132c;box-shadow:0 0 0 10px #321c3e,0 18px 30px #0008 inset;margin:12px auto 20px}
+.pot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.pot .amt{font-family:var(--display);font-size:2rem;color:var(--marigold);line-height:1;text-shadow:0 2px 4px rgba(0,0,0,.6)}
+.pot .cap{font-size:.72rem;letter-spacing:.1em;color:#cfe8dd;text-transform:uppercase}
+.pot .stake{margin-top:5px;font-size:.78rem;background:rgba(0,0,0,.55);border-radius:99px;padding:3px 10px;display:inline-block;border:1px solid rgba(255,255,255,.1)}
+
+/* ---------- seats ---------- */
+.seat{position:absolute;transform:translate(-50%,-50%);width:78px;text-align:center;transition:opacity .2s;z-index:2}
+.seat .pill{background:var(--ink);border:2px solid var(--line);border-radius:14px;padding:5px 3px 4px;position:relative;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.seat .nm{font-size:.76rem;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seat .cn{font-size:.7rem;color:var(--dim)}
+.seat .contrib{font-size:.65rem;color:var(--marigold);opacity:.9}
+.seat .st{position:absolute;top:-10px;right:-6px;font-size:1rem;background:var(--ink);border-radius:99px;padding:0 2px;line-height:1}
+.seat.me .pill{border-color:var(--brass);box-shadow:0 0 0 1px var(--brass),0 4px 12px rgba(0,0,0,.5)}
+.seat.turn .pill{border-color:var(--marigold);box-shadow:0 0 0 3px rgba(245,182,56,.4);animation:pulse 1.2s ease-in-out infinite}
+.seat.out{opacity:.35}
+.seat.win .pill{border-color:var(--jade);box-shadow:0 0 0 3px rgba(46,184,134,.4)}
+.seat .col{position:absolute;left:5px;top:-4px;width:10px;height:10px;border-radius:50%;border:2px solid var(--ink)}
+.seat .float{position:absolute;left:50%;top:-30px;transform:translateX(-50%);font-size:1.6rem;animation:rise 1.6s ease-out forwards;pointer-events:none}
+
+/* Compact seats for 7–10 players */
+.seat.compact{width:64px}
+.seat.compact .pill{padding:3px 2px 3px;border-radius:11px}
+.seat.compact .nm{font-size:.7rem}
+.seat.compact .cn{font-size:.64rem}
+.seat.compact .contrib{font-size:.6rem}
+.seat.compact .st{font-size:.88rem;top:-8px;right:-4px}
+
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(245,182,56,.2)}}
+@keyframes rise{to{transform:translate(-50%,-34px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.seat.turn .pill{animation:none}.seat .float{animation-duration:.01s}}
+
+/* ---------- practical list view ---------- */
+.listwrap{padding:14px;margin:10px 14px}
+.pot-banner{text-align:center;padding:12px;background:rgba(245,182,56,.08);border:1.5px solid rgba(245,182,56,.3);border-radius:14px;margin-bottom:12px}
+.pot-banner .amt{font-family:var(--display);font-size:1.9rem;color:var(--marigold);line-height:1}
+.pot-banner .cap{font-size:.72rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-top:2px}
+.pot-banner .stake{margin-top:6px;font-size:.85rem;color:var(--ivory);font-weight:600}
+.roster-head{font-size:.9rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.roster{display:flex;flex-direction:column;gap:8px}
+.roster-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(0,0,0,.25);border:1.5px solid var(--line);border-radius:12px;transition:border-color .15s}
+.roster-row.turn-active{border-color:var(--marigold);box-shadow:0 0 0 2px rgba(245,182,56,.35);background:rgba(245,182,56,.06)}
+.roster-row.out{opacity:.4}
+.roster-left{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.roster-name{font-weight:650;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.roster-badge{font-size:.75rem;padding:2px 6px;border-radius:99px;background:rgba(255,255,255,.08);color:var(--dim);white-space:nowrap}
+.roster-right{text-align:right;flex:none}
+.roster-coins{font-size:.95rem;font-weight:700;color:var(--marigold)}
+.roster-bet{font-size:.75rem}
+
+/* ---------- table messages & controls ---------- */
+.msgline{text-align:center;padding:0 14px;min-height:42px;color:var(--ivory);font-size:.92rem;line-height:1.35}
+.msgline b{color:var(--marigold)}
+.turn-highlight{color:var(--marigold);background:rgba(245,182,56,.15);padding:2px 8px;border-radius:6px;border:1px solid rgba(245,182,56,.3)}
+.timer{height:6px;background:var(--ink2);border-radius:99px;margin:6px 16px;overflow:hidden}
+.timer i{display:block;height:100%;background:var(--marigold);width:100%;transition:width .25s linear}
+.timer.low i{background:var(--rose)}
+.controls{margin-top:auto;padding:10px 14px calc(14px + var(--safe-b));position:sticky;bottom:0;background:linear-gradient(transparent,var(--ink) 25%)}
+.controls .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.controls .full{grid-column:1/-1}
+.bigbtn{min-height:60px;font-size:1.05rem}
+.controls .btn .sub{display:block;font-size:.74rem;font-weight:500;opacity:.8}
+.log{font-size:.78rem;color:var(--dim);padding:0 16px 6px;min-height:2.4em;line-height:1.3}
+.log div:last-child{color:var(--ivory)}
+
+/* ---------- settlement & showdown banners ---------- */
+.banner{margin:6px 0;padding:14px;border-radius:16px;background:rgba(46,184,134,.12);border:1.5px solid var(--jade);text-align:center}
+.banner .w{font-family:var(--display);font-size:1.5rem;color:var(--ivory);font-weight:700;margin:4px 0}
+.handbox{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font-size:.88rem;background:rgba(0,0,0,.3);padding:8px;border-radius:10px}
+.cardpick{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.cardpick select{height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--ink2);padding:0 8px}
+
+.settle-summary{margin-top:12px;border-top:1px solid rgba(46,184,134,.3);padding-top:10px}
+.settle-title{font-size:.82rem;color:var(--dim);font-weight:700;text-transform:uppercase;margin-bottom:6px}
+.settle-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.85rem}
+.settle-item{display:flex;justify-content:space-between;background:rgba(0,0,0,.25);padding:5px 8px;border-radius:8px}
+.settle-name{font-weight:600}
+.settle-coins{color:var(--marigold);font-weight:700}
+
+.showdown-box{background:var(--ink2);border:1.5px solid var(--marigold);border-radius:16px;padding:14px;margin-bottom:10px}
+.showdown-title{font-family:var(--display);font-size:1.15rem;color:var(--marigold);text-align:center;font-weight:700;margin-bottom:6px}
+
+/* Two-step winner confirmation box */
+.confirm-box{background:rgba(245,182,56,.12);border:2px solid var(--marigold);border-radius:16px;padding:14px;text-align:center;margin-top:8px}
+.confirm-head{font-size:.85rem;color:var(--dim);text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.confirm-name{font-family:var(--display);font-size:1.6rem;color:var(--ivory);font-weight:700;margin:4px 0}
+.confirm-prize{font-size:1.1rem;color:var(--marigold);font-weight:700}
+
+.sideshow-prompt{background:var(--ink2);border:1.5px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}
+.sideshow-title{font-family:var(--display);font-size:1.1rem;color:var(--marigold);text-align:center;font-weight:700}
+
+/* ---------- overlays ---------- */
+#overlay:empty{display:none}
+#overlay{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.65);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:520px;max-height:86vh;overflow-y:auto;background:var(--ink);border:1.5px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;padding:16px 16px calc(18px + var(--safe-b))}
+.sheet h2{font-size:1.25rem;margin-bottom:10px}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.rgrid .btn{min-height:56px}
+.chatlog{height:36vh;overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.msg{background:var(--ink2);border-radius:12px;padding:7px 10px;max-width:88%;align-self:flex-start;font-size:.9rem;word-break:break-word}
+.msg.mine{align-self:flex-end;background:#352112;border:1px solid rgba(245,182,56,.3)}
+.msg .by{font-size:.72rem;font-weight:700}
+.react{display:flex;gap:6px;margin-bottom:10px}
+.react .btn{flex:1;min-height:42px;padding:0;font-size:1.15rem}
+.stat{width:100%;border-collapse:collapse;font-size:.82rem}
+.stat th,.stat td{padding:6px 4px;text-align:right;border-bottom:1px solid var(--line)}
+.stat th:first-child,.stat td:first-child{text-align:left}
+.stat th{color:var(--dim);font-weight:500}
+
+#toast{position:fixed;left:50%;top:14px;transform:translate(-50%,-90px);background:var(--rose);color:#fff;padding:9px 16px;border-radius:12px;z-index:50;transition:transform .25s ease-out;max-width:92vw;text-align:center;font-weight:600;font-size:.92rem;box-shadow:0 6px 18px rgba(0,0,0,.5)}
+#toast.show{transform:translate(-50%,0)}
+#toast.info{background:var(--ink2);border:1.5px solid var(--marigold);color:var(--ivory)}
+
+body.offline #app::before{content:"Reconnecting to server…";display:block;text-align:center;background:var(--rose);color:#fff;padding:6px;font-size:.85rem;position:sticky;top:0;z-index:20}
+
+/* ---------- mobile adjustments ---------- */
+@media (max-width: 380px) {
+  .table{height:250px;min-height:240px}
+  .top .rc{font-size:1rem}
+  .mybalance{font-size:.85rem;padding:4px 8px}
+  .seat{width:68px}
+  .seat.compact{width:58px}
+  .seat.compact .nm{font-size:.65rem}
+  .seat.compact .cn{font-size:.62rem}
+  .bigbtn{min-height:54px;font-size:1rem}
+  .settle-grid{grid-template-columns:1fr}
+}

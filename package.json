@@ -1,0 +1,16 @@
+{
+  "name": "teen-patti-table",
+  "version": "1.0.0",
+  "description": "Live table manager for physical-card Teen Patti. Fake coins, no database.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "build": "node -c server.js game/room.js game/hands.js game/variants.js test/engine.test.js",
+    "lint": "node -c server.js game/room.js game/hands.js game/variants.js test/engine.test.js public/app.js public/config.js",
+    "test": "node test/engine.test.js && node test/ws.test.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": { "ws": "^8.18.0" },
+  "license": "MIT"
+}
