@@ -88,15 +88,16 @@ If you wish to deploy the frontend separately on Vercel:
 2. Click **Add New Project** → Import your GitHub repository.
 3. In Project Settings:
    - **Framework Preset**: Other
-   - **Root Directory**: `./` (the included [vercel.json](file:///c:/Users/ramch/Downloads/teen-patti/vercel.json) configures `public` as the output directory).
-4. Configure the WebSocket URL:
-   - **Option A**: Edit [public/config.js](file:///c:/Users/ramch/Downloads/teen-patti/public/config.js):
+   - **Root Directory**: `./` (the included [vercel.json](file:///c:/Users/ramch/Downloads/teen-patti/vercel.json) automatically serves `public`).
+4. Connect to your Railway Backend (3 easy ways):
+   - **Method 1 (Zero-code via UI)**: Open your Vercel site, tap the **Server Status badge** on the home screen, paste your Railway WebSocket URL (e.g. `wss://your-backend.up.railway.app/ws`), and tap **Connect & Save**. It is saved in `localStorage` permanently.
+   - **Method 2 (In Code)**: Edit [public/config.js](file:///c:/Users/ramch/Downloads/teen-patti/public/config.js):
      ```javascript
      window.TP_WS_URL = 'wss://your-backend.up.railway.app/ws';
      ```
-   - **Option B**: Append the parameter dynamically in the URL:
-     `https://your-app.vercel.app/?ws=wss://your-backend.up.railway.app/ws` (persisted in localStorage).
-5. Deploy.
+   - **Method 3 (Via URL query)**: Share links with the backend URL embedded:
+     `https://your-app.vercel.app/?ws=wss://your-backend.up.railway.app/ws`
+5. Click **Deploy**.
 
 ---
 

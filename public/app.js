@@ -15,6 +15,7 @@ const store = {
   del: (k) => { try { localStorage.removeItem(k); } catch (e) { /* ignore */ } },
 };
 
+let isConnected = false;
 let ws = null, S = null, offset = 0, retry = 0, outbox = null;
 let tab = 'create', overlay = null, cardDraft = [{}, {}, {}], soundOn = store.get('tp_sound', true);
 let lastLogN = 0, lastTurn = null, chatSeenTs = 0, lastTickSec = -1, qrOn = false, actionSeq = 0;
@@ -39,11 +40,15 @@ function connect() {
   try {
     ws = new WebSocket(wsUrl());
   } catch (e) {
+    isConnected = false;
     setTimeout(connect, 2000);
     return;
   }
   ws.onopen = () => {
-    retry = 0; document.body.classList.remove('offline');
+    isConnected = true;
+    retry = 0;
+    document.body.classList.remove('offline');
+    if (!S) render();
     if (outbox) { ws.send(JSON.stringify(outbox)); outbox = null; return; }
     const ses = store.get('tp_session', null);
     if (ses) ws.send(JSON.stringify({ t: 'resume', code: ses.code, token: ses.token }));
@@ -54,10 +59,14 @@ function connect() {
     onMsg(m);
   };
   ws.onclose = () => {
+    isConnected = false;
     if (S) document.body.classList.add('offline');
+    else render();
     setTimeout(connect, Math.min(800 * 2 ** retry++, 8000));
   };
-  ws.onerror = () => {};
+  ws.onerror = () => {
+    isConnected = false;
+  };
 }
 
 function send(m) {
@@ -66,8 +75,15 @@ function send(m) {
 }
 
 function sendFirst(m) {
-  if (ws && ws.readyState === 1) ws.send(JSON.stringify(m));
-  else outbox = m;
+  if (ws && ws.readyState === 1) {
+    ws.send(JSON.stringify(m));
+  } else {
+    outbox = m;
+    toast('Connecting to backend server…', 'info');
+    setTimeout(() => {
+      if (!isConnected && !S) openServerModal();
+    }, 1200);
+  }
 }
 
 const act = (a) => {
@@ -147,6 +163,26 @@ function openOverlay(html, kind) {
   overlay = kind;
   $('#overlay').innerHTML = `<div class="sheet" role="dialog" aria-modal="true">${html}</div>`;
 }
+
+function openServerModal() {
+  const current = wsUrl();
+  const isCustom = !!store.get('tp_ws', null);
+  openOverlay(`
+    <h3 style="margin-top:0">Backend Server Connection</h3>
+    <p class="muted" style="font-size:.85rem;margin:0 0 14px">
+      If hosting frontend on <b>Vercel</b>, enter your <b>Railway backend WebSocket URL</b> below (e.g. <code>wss://your-app.up.railway.app/ws</code>).
+    </p>
+    <div class="field">
+      <label for="srv-url">WebSocket URL</label>
+      <input id="srv-url" type="text" value="${esc(current)}" placeholder="wss://your-app.up.railway.app/ws">
+    </div>
+    <div class="row" style="margin-top:14px;gap:8px">
+      <button class="btn primary" style="flex:1" data-a="saveServerUrl">Connect & Save</button>
+      ${isCustom ? `<button class="btn" data-a="resetServerUrl">Reset</button>` : ''}
+      <button class="btn" data-a="close">Cancel</button>
+    </div>
+  `, 'server');
+}
 const nameOf = (id) => { const p = S && S.players.find((x) => x.id === id); return p ? p.name : '—'; };
 const link = () => `${location.origin}${location.pathname}?room=${S.code}`;
 const isHost = () => S && S.hostId === S.you;
@@ -196,6 +232,12 @@ function renderHome() {
     <div class="brand-badge">Physical Card Companion</div>
     <h1>Teen Patti<br>Companion</h1>
     <p class="sub">Shuffle and deal your <b>physical cards</b>. The app handles rooms, turns, bets, pot, timers, fake coins, and winner settlement.</p>
+    <div style="text-align:center;margin-bottom:12px">
+      <button class="server-status-pill" data-a="serverModal" type="button" title="Configure backend WebSocket URL">
+        <span class="dot ${isConnected ? 'live' : ''}"></span>
+        <span>${isConnected ? 'Server Connected' : 'Server Offline · Tap to connect'}</span>
+      </button>
+    </div>
     <div class="card"><div class="field" style="margin:0"><label for="name">Your player name</label>
       <input id="name" maxlength="16" autocomplete="nickname" value="${esc(name)}" placeholder="e.g. Nikhil"></div></div>
     <div class="tabs">
@@ -827,6 +869,32 @@ function doAction(a, d = {}) {
     case 'sound': soundOn = !soundOn; store.set('tp_sound', soundOn); if (soundOn) tone(660, .08); openMenu(); break;
     case 'react': act({ type: 'react', emoji: d.e }); break;
     case 'sendChat': { const i = $('#chatin'); if (i && i.value.trim()) { act({ type: 'chat', text: i.value }); i.value = ''; } break; }
+    case 'serverModal': openServerModal(); break;
+    case 'saveServerUrl': {
+      const input = $('#srv-url');
+      let val = input ? input.value.trim() : '';
+      if (!val) { toast('Please enter a WebSocket URL'); return; }
+      if (val.startsWith('http://')) val = 'ws://' + val.slice(7);
+      else if (val.startsWith('https://')) val = 'wss://' + val.slice(8);
+      else if (!val.startsWith('ws://') && !val.startsWith('wss://')) {
+        val = (location.protocol === 'https:' ? 'wss://' : 'ws://') + val;
+      }
+      if (!val.endsWith('/ws')) val = val.replace(/\/+$/, '') + '/ws';
+      store.set('tp_ws', val);
+      closeOverlay();
+      toast('Server URL saved. Reconnecting…', 'info');
+      if (ws) { try { ws.close(); } catch (e) {} }
+      connect();
+      break;
+    }
+    case 'resetServerUrl': {
+      store.del('tp_ws');
+      closeOverlay();
+      toast('Reset to default server. Reconnecting…', 'info');
+      if (ws) { try { ws.close(); } catch (e) {} }
+      connect();
+      break;
+    }
     default: break;
   }
 }

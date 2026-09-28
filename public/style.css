@@ -206,6 +206,12 @@ h1,h2{font-family:var(--display);margin:0}
 
 body.offline #app::before{content:"Reconnecting to server…";display:block;text-align:center;background:var(--rose);color:#fff;padding:6px;font-size:.85rem;position:sticky;top:0;z-index:20}
 
+.server-status-pill{display:inline-flex;align-items:center;gap:8px;background:var(--ink2);border:1px solid var(--line);padding:5px 12px;border-radius:999px;font-size:.8rem;color:var(--dim);cursor:pointer;margin:0 auto 12px;transition:border-color .15s}
+.server-status-pill:hover{border-color:var(--marigold);color:var(--ivory)}
+.server-status-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--rose)}
+.server-status-pill .dot.live{background:var(--emerald);box-shadow:0 0 6px rgba(46,204,113,.6)}
+
+
 /* ---------- mobile adjustments ---------- */
 @media (max-width: 380px) {
   .table{height:250px;min-height:240px}
